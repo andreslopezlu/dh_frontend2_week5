@@ -7,6 +7,8 @@
 /*           [6] FUNCION: Escuchamos el evento de carga de la página          */
 /* -------------------------------------------------------------------------- */
 window.addEventListener('load', function () {
+    chequearUsuarioValido();
+    // retornarMayores();
     // 👇 Todo lo que desarrollamos dentro, se ejecuta una vez que se carga la página
 
     // nos traemos la info del storage
@@ -15,6 +17,7 @@ window.addEventListener('load', function () {
     // utilizamos la funcion para el renderizado
     renderizarElementos(user);
 
+    botonCerrarSesion();
 })
 
 /* -------------------------------------------------------------------------- */
@@ -66,5 +69,26 @@ function renderizarElementos(objeto) {
 
 function botonCerrarSesion() {
     //    👇 desarrollar la función
+
+    const cerrarSesion = document.createElement('button');
+    cerrarSesion.setAttribute('id', 'cerrar-sesion');
+    cerrarSesion.innerHTML = 'Cerrar sesión'
+    cerrarSesion.style.padding = '5px 20px';
+    cerrarSesion.style.backgroundColor = 'rgba(255,0,0,0.2)';
+    cerrarSesion.style.color = 'red';
+    cerrarSesion.style.margin = '20px';
+    cerrarSesion.style.border = '0';
+    cerrarSesion.style.cursor= 'pointer';
+
+    const info = document.querySelector('.user')
+    info.appendChild(cerrarSesion)
+
+    cerrarSesion.addEventListener('click', () =>{
+        const cerrar= confirm ('¿Seguro desea cerrar sesión?');
+        if (cerrar){
+            localStorage.clear();
+            location.replace('./index.html');
+        }
+    })
 
 }

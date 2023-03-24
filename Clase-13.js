@@ -138,7 +138,10 @@ formulario.addEventListener('submit', function (evento) {
     if (estadoErroresOK.email && estadoErroresOK.password && estadoErroresOK.rol && estadoErroresOK.terminos) {
         alert("Pasó todas las validaciones!");
         // ☝ luego reemplazar esto por la funcion de éxito
+        navegarPaginaExito();
     }
+
+    mostrarErrores();
 
 });
 
@@ -158,5 +161,15 @@ formulario.addEventListener('submit', function (evento) {
 
 function navegarPaginaExito() {
     //   desarrollar la funcion aqui
+    localStorage.setItem('user', JSON.stringify(estadoUsuario));
+
+    const submitButton = document.querySelector('button')
+
+    submitButton.disabled = true;
+
+    setTimeout(()=> {
+        submitButton.innerText='Cargando ...';
+        location.replace('./usuario.html')
+    } , 3000)
 
 }
