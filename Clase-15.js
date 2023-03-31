@@ -31,31 +31,31 @@ function chequearUsuarioValido() {
 // 3. Volver a guardarlo en localStorage bajo el mismo key
 // 4. Mostrar por consola el resultado, asegurándose de que sea el requerido
 localStorage.setItem("LISTADO",
-    `[{"nombre":"Pedro","apellido":"Gomez","nacimiento":"11/05/1998"},{"nombre":"Joaquin","apellido":"Sotto","nacimiento":"21/10/1985"},{"nombre":"Gabriela","apellido":"Perez","nacimiento":"02/02/2010"},{"nombre":"Agustina","apellido":"Estevez","nacimiento":"21/08/1986"},{"nombre":"Paola","apellido":"Serra","nacimiento":"22/09/2009"},{"nombre":"Juan","apellido":"Coprez","nacimiento":"12/04/1977"}]`);
+    `[{"nombre":"Pedro","apellido":"Gomez","nacimiento":"11/05/1998"},
+    {"nombre":"Joaquin","apellido":"Sotto","nacimiento":"21/10/1985"},
+    {"nombre":"Gabriela","apellido":"Perez","nacimiento":"02/02/2010"},
+    {"nombre":"Agustina","apellido":"Estevez","nacimiento":"21/08/1986"},
+    {"nombre":"Paola","apellido":"Serra","nacimiento":"22/09/2009"},
+    {"nombre":"Juan","apellido":"Coprez","nacimiento":"12/04/1977"}]`);
 
 function retornarMayores () {
     const usuarios = JSON.parse(localStorage.getItem("LISTADO"));
     console.log(usuarios)
 
-    const date = new Date();
-    const currentYear = date.getFullYear();
-
     const mayores = usuarios.filter(usuario => {
-        const nacimiento = usuario.nacimiento.split("/")
-        const anio = nacimiento[2]
-        const edad = currentYear - anio;
-        usuario['edad']=edad;
-        return edad > 18;
+        const currentYear = new Date().getFullYear();
+        const birthDate = usuario.nacimiento.split('/')
+        const formattedBirthDate = birthDate[2]+'-'+birthDate[1]+'-'+birthDate[0]
+        const edad = currentYear - new Date(formattedBirthDate).getFullYear();
+        usuario['edad'] = edad;
+        return edad >= 18;
     })
 
     const nombreApellidoMayores = mayores.map(persona => {
-        const nombre = persona.nombre;
-        const apellido = persona.apellido;
-        const edad = persona.edad;
-        return {Nombre: nombre, Apellido: apellido};
+        return {Nombre: persona.nombre, Apellido: persona.apellido, Edad: persona.edad};
     })
 
-    const mayoresEdad = localStorage.setItem('viejitos', JSON.stringify(nombreApellidoMayores));
+    localStorage.setItem('viejitos', JSON.stringify(nombreApellidoMayores));
 }
 
 retornarMayores();
